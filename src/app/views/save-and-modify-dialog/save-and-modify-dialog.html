@@ -1,0 +1,28 @@
+<h2>{{ data.type }} student</h2>
+<form [formGroup]="formGroup" (submit)="onSubmit()">
+  <div class="input-container">
+    <mat-form-field appearance="outline">
+      <mat-label>Name</mat-label>
+      <input matInput formControlName="name" />
+      @if(getErrorMessage('name')) {
+      <mat-error>
+        {{ getErrorMessage('name') }}
+      </mat-error>
+      }
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="email-form-field">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email" />
+      @if(getErrorMessage('email')) {
+      <mat-error>
+        {{ getErrorMessage('email') }}
+      </mat-error>
+      }
+    </mat-form-field>
+  </div>
+  <div align="end">
+    <button matButton (click)="onClose()" type="button" class="close-button">Close</button>
+    <button matButton="filled" type="submit">{{ data.type }}</button>
+  </div>
+</form>

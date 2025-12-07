@@ -1,0 +1,25 @@
+.student-list-container {
+  height: 100%;
+  padding: 20px;
+
+  .create-button-container {
+    margin: 10px;
+  }
+
+  .mat-column-name,
+  .mat-column-email {
+    width: 45%;
+  }
+
+  .mat-column-buttons {
+    width: 10%;
+  }
+
+  .modify-button-container {
+    display: flex;
+  }
+
+  .address-container {
+    margin-top: 20px;
+  }
+}

@@ -1,0 +1,8 @@
+<div class="container">
+  <h2>Delete user</h2>
+  <div>Are you sure you want to delete {{ data.name }} ({{ data.email }})?</div>
+  <div align="end" class="button-container">
+    <button matButton (click)="onClose()" class="close-button">Close</button>
+    <button matButton="filled" (click)="onAccept()">Ok</button>
+  </div>
+</div>
