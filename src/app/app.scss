@@ -7,8 +7,9 @@
   }
 
   .mat-column-name,
-  .mat-column-email {
-    width: 45%;
+  .mat-column-email,
+  .mat-column-address {
+    width: 30%;
   }
 
   .mat-column-buttons {
@@ -17,9 +18,5 @@
 
   .modify-button-container {
     display: flex;
-  }
-
-  .address-container {
-    margin-top: 20px;
   }
 }

@@ -13,7 +13,13 @@ export interface DialogData {
   id?: string;
   name?: string;
   email?: string;
-  executableFunction: (name: string, email: string, id?: string) => Observable<unknown>;
+  address?: string;
+  executableFunction: (
+    name: string,
+    email: string,
+    address: string,
+    id?: string
+  ) => Observable<unknown>;
   type: 'Create' | 'Update';
 }
 
@@ -33,6 +39,10 @@ export class SaveAndModifyDialog {
     email: new FormControl(this.data.email ?? '', [
       Validators.required,
       strictEmailValidator(),
+      Validators.maxLength(320),
+    ]),
+    address: new FormControl(this.data.address ?? '', [
+      Validators.required,
       Validators.maxLength(320),
     ]),
   });
@@ -63,10 +73,19 @@ export class SaveAndModifyDialog {
       return;
     }
 
-    const { name, email } = this.formGroup.value as { name: string; email: string };
+    const { name, email, address } = this.formGroup.value as {
+      name: string;
+      email: string;
+      address: string;
+    };
 
     this.data
-      .executableFunction(name, email, this.data.type === 'Update' ? this.data.id : undefined)
+      .executableFunction(
+        name,
+        email,
+        address,
+        this.data.type === 'Update' ? this.data.id : undefined
+      )
       .pipe(
         catchError((networkError: HttpErrorResponse) => {
           this.snackBar.open((networkError.error as Error).message, 'Ok');

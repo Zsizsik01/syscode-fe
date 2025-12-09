@@ -11,21 +11,28 @@ export class ProfileService {
     return this.http.get<StudentResponsePayload[]>(`http://localhost:3000/students`);
   }
 
-  public createStudent(name: string, email: string): Observable<StudentResponsePayload> {
+  public createStudent(
+    name: string,
+    email: string,
+    address: string
+  ): Observable<StudentResponsePayload> {
     return this.http.post<StudentResponsePayload>(`http://localhost:3000/students`, {
       name,
       email,
+      address,
     });
   }
 
   public updateStudent(
     id: string,
     name: string,
-    email: string
+    email: string,
+    address: string
   ): Observable<StudentResponsePayload> {
     return this.http.put<StudentResponsePayload>(`http://localhost:3000/students/${id}`, {
       name,
       email,
+      address,
     });
   }
 

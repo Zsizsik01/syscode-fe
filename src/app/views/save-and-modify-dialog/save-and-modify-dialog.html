@@ -20,6 +20,16 @@
       </mat-error>
       }
     </mat-form-field>
+
+    <mat-form-field appearance="outline" class="address-form-field">
+      <mat-label>Address</mat-label>
+      <input matInput formControlName="address" />
+      @if(getErrorMessage('address')) {
+      <mat-error>
+        {{ getErrorMessage('address') }}
+      </mat-error>
+      }
+    </mat-form-field>
   </div>
   <div align="end">
     <button matButton (click)="onClose()" type="button" class="close-button">Close</button>

@@ -1,9 +1,9 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
-import { AddressService, ProfileService } from './services';
+import { ProfileService } from './services';
 import { catchError, of, tap } from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
-import { AddressResponsePayload, StudentResponsePayload } from './interfaces';
+import { StudentResponsePayload } from './interfaces';
 import { MatTableModule } from '@angular/material/table';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { SaveAndModifyDialog } from './views/save-and-modify-dialog/save-and-modify-dialog';
@@ -20,31 +20,13 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class App implements OnInit {
   private readonly profileService = inject(ProfileService);
-  private readonly addressService = inject(AddressService);
   private readonly dialog = inject(MatDialog);
   private readonly snackBar = inject(MatSnackBar);
   public dataSource: StudentResponsePayload[] = [];
-  public displayedColumns: string[] = ['name', 'email', 'buttons'];
-  public addressResult!: AddressResponsePayload;
+  public displayedColumns: string[] = ['name', 'email', 'address', 'buttons'];
 
   ngOnInit(): void {
     this.listStudents();
-
-    this.addressService
-      .getAddress()
-      .pipe(
-        catchError((networkError: HttpErrorResponse) => {
-          this.snackBar.open((networkError.error as Error).message, 'Ok');
-
-          return of(null);
-        }),
-        tap((result) => {
-          if (result !== null) {
-            this.addressResult = result;
-          }
-        })
-      )
-      .subscribe();
   }
 
   public listStudents(): void {
@@ -69,6 +51,7 @@ export class App implements OnInit {
       id?: string;
       name?: string;
       email?: string;
+      address?: string;
     }
   ): void {
     this.dialog
@@ -76,14 +59,17 @@ export class App implements OnInit {
         data: {
           executableFunction:
             type === 'Create'
-              ? (name: string, email: string) => this.profileService.createStudent(name, email)
-              : (name: string, email: string, id?: string) =>
-                  this.profileService.updateStudent(id!, name, email),
+              ? (name: string, email: string, address: string) =>
+                  this.profileService.createStudent(name, email, address)
+              : (name: string, email: string, address: string, id?: string) =>
+                  this.profileService.updateStudent(id!, name, email, address),
           type,
           id: entity?.id,
           name: entity?.name,
           email: entity?.email,
+          address: entity?.address,
         },
+        minWidth: '700px',
       })
       .afterClosed()
       .pipe(
